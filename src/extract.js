@@ -7,6 +7,7 @@ const constants = require('./constants.js');
 const jsExtractor = require('./javascript-extract.js');
 const tsExtractor = require('./typescript-extract.js');
 const flowRemoveTypes = require('flow-remove-types');
+const { locals } = require('../../pug-config');
 
 // Internal regular expression used to escape special characters
 const ESCAPE_REGEX = /[\-\[\]\/{}()*+?.\\^$|]/g;
@@ -88,6 +89,7 @@ function preprocessTemplate(data, type = 'html', filename = null) {
     if (type === 'jade' || type === 'pug') {
       const pug = require('pug');
       templateData = pug.render(data, {
+        ...locals,
         filename: filename,
         pretty: true,
         require: () => {
